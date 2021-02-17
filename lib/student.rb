@@ -42,17 +42,17 @@ class Student
     end
   end 
 
-  def self.create(name:, grade:)
+  def self.create(name, grade)
     student = Student.new(name, grade)
     student.save
     student
   end
 
   def self.new_from_db(row)
-    new_student = self.new(id=nil, name, grade)
-    new_student.id = row[0]
-    new_student.name =  row[1]
-    new_student.grade = row[2]
+    id = row[0]
+    name =  row[1]
+    grade = row[2]
+    new_student = self.new(id, name, grade)
     new_student  
   end
 
@@ -64,7 +64,7 @@ class Student
     SQL
     DB[:conn].execute(sql, name).map do |row|
         self.new_from_db(row)
-    end
+    end.first
   end   
 
   def update
